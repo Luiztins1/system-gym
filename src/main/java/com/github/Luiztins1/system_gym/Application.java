@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 @SpringBootApplication
-public class SystemGymApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SystemGymApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 	@GetMapping
