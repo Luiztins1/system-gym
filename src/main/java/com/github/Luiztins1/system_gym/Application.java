@@ -15,9 +15,4 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@GetMapping
-	public String getHello(){
-		return "Hello World!";
-	}
-
 }
