@@ -7,5 +7,5 @@ public record StudentDTO(
         UUID id,
         String cpf,
         UUID planId,
-        List<UUID> listRegistration) {
+        UUID registrationId) {
 }
