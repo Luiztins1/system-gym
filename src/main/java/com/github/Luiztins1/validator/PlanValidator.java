@@ -1,7 +1,9 @@
 package com.github.Luiztins1.validator;
 
 import com.github.Luiztins1.controller.dtos.PlanDTO;
+import com.github.Luiztins1.controller.dtos.StudentDTO;
 import com.github.Luiztins1.model.entity.Plan;
+import com.github.Luiztins1.model.entity.Student;
 import com.github.Luiztins1.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,8 +20,11 @@ public class PlanValidator {
         return planRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
-    public Plan validateIdForReturnNullMapper(PlanDTO planDTO){
-        if(planDTO.id() == null) return null;
-        return validateSource(planDTO.id());
+    public void validateDuplicatePlan(Plan plan){
+        if(duplicatePlan(plan)) throw new RuntimeException();
+    }
+
+    private boolean duplicatePlan(Plan plan){
+        return planRepository.existsByTypePlan(plan.getTypePlan());
     }
 }

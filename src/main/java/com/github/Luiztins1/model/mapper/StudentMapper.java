@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class StudentMapper {
 
-    public static StudentDTO toEntity(Student student){
+    public static StudentDTO toDto(Student student){
         if(student == null) return null;
 
         return new StudentDTO(
@@ -20,18 +20,18 @@ public class StudentMapper {
         );
     }
 
-    public Student toDto(StudentDTO studentDTO){
+    public Student toEntity(StudentDTO studentDTO){
         if(studentDTO == null) return null;
 
         Student student = new Student();
-        Plan plan = new Plan();
-        Registration registration = new Registration();
 
         student.setId(studentDTO.id());
         student.setCpf(studentDTO.cpf());
-        student.setPlan_id(plan);
-        student.setRegistration_id(registration);
+        student.setPlan_id(null);
+        student.setRegistration_id(null);
 
         return student;
     }
+
+
 }

@@ -2,6 +2,7 @@ package com.github.Luiztins1.validator;
 
 import com.github.Luiztins1.controller.dtos.PlanDTO;
 import com.github.Luiztins1.controller.dtos.RegistrationDTO;
+import com.github.Luiztins1.controller.dtos.StudentDTO;
 import com.github.Luiztins1.model.entity.Plan;
 import com.github.Luiztins1.model.entity.Registration;
 import com.github.Luiztins1.repository.RegistrationRepository;
@@ -20,8 +21,12 @@ public class RegistrationValidator {
         return registrationRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
-    public Registration validateIdForReturnNullMapper(RegistrationDTO registrationDTO){
-        if(registrationDTO.id() == null) return null;
-        return validateSource(registrationDTO.id());
+    public void validateDuplicationRegistration(Registration registration){
+       if(duplicateRegistration(registration)) throw new RuntimeException();
+    }
+
+
+    private boolean duplicateRegistration(Registration registration){
+        return registrationRepository.existsByIdOrModality(registration.getId(), registration.getModality());
     }
 }

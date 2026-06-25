@@ -8,25 +8,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class RegistrationMapper {
 
-    public static RegistrationDTO toEntity(Registration registration){
+    public static RegistrationDTO toDto(Registration registration){
         if(registration == null) return null;
 
         return new RegistrationDTO(
                 registration.getId(),
                 registration.getModality(),
-                registration.getStudent_id().getId()
+                registration.getStudent_id().getId() != null ? registration.getStudent_id().getId() : null
         );
     }
 
-    public Registration toDto(RegistrationDTO registrationDTO){
+    public static Registration toEntity(RegistrationDTO registrationDTO){
         if(registrationDTO == null) return null;
 
         Registration registration = new Registration();
-        Student student = new Student();
+
         registration.setId(registrationDTO.id());
         registration.setModality(registrationDTO.modality());
-        registration.setStudent_id(student.getRegistration_id().getStudent_id());
+        registration.setStudent_id(null);
 
         return registration;
     }
+
+
 }

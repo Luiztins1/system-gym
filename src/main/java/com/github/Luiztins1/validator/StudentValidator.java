@@ -18,8 +18,16 @@ public class StudentValidator {
         return studentRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
+    public void validateStudentDuplicate(Student student){
+        if(duplicateStudent(student)) throw new RuntimeException();
+    }
+
     public Student validateIdForReturnNullMapper(StudentDTO studentDTO){
         if(studentDTO.id() == null) return null;
         return validateSource(studentDTO.id());
+    }
+
+    private boolean duplicateStudent(Student student){
+        return studentRepository.existsByIdOrCpf(student.getId(), student.getCpf());
     }
 }
