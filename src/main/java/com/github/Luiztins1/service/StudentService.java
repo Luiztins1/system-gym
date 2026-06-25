@@ -27,12 +27,13 @@ public class StudentService {
     private final RegistrationValidator registrationValidator;
 
     @Transactional
-    public Student registerStudent(StudentDTO studentDTO, UUID planId, UUID registrationId){
-        Plan plan = planValidator.validateSource(planId);
-        Registration registration = registrationValidator.validateSource(registrationId);
+    public Student registerStudent(StudentDTO studentDTO){
+        Plan plan = planValidator.validateSource(studentDTO.planId());
+        Registration registration = registrationValidator.validateSource(studentDTO.registrationId());
 
         Student student = new Student(
                 null,
+                studentDTO.name(),
                 studentDTO.cpf(),
                 plan,
                 registration
@@ -47,11 +48,12 @@ public class StudentService {
     }
 
     @Transactional
-    public Optional<Student> updateStudent(UUID studentId, UUID planId, UUID registrationId){
-        Student student = studentValidator.validateSource(studentId);
+    public Optional<Student> updateStudent(StudentDTO studentDTO){
 
-        Plan plan = planValidator.validateSource(planId);
-        Registration registration = registrationValidator.validateSource(registrationId);
+        Student student = studentRepository.existsByNameOrCpf(studentDTO.name(), studentDTO.cpf());
+
+        Plan plan = planValidator.validateSource(studentDTO.planId());
+        Registration registration = registrationValidator.validateSource(studentDTO.registrationId());
 
         student.setPlan_id(plan);
         student.setRegistration_id(registration);

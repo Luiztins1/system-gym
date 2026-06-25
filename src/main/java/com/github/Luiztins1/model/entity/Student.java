@@ -20,6 +20,9 @@ public class Student {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @Column(name = "name", nullable = false)
+    String name;
+
     @Column(name = "cpf", nullable = false)
     private String cpf;
 

@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface StudentRepository extends JpaRepository<Student, UUID> {
     boolean existsByIdOrCpf(UUID id, String cpf);
+    Student existsByNameOrCpf(String name, String cpf);
 }

@@ -2,10 +2,8 @@ package com.github.Luiztins1.service;
 
 import com.github.Luiztins1.controller.dtos.PlanDTO;
 import com.github.Luiztins1.model.entity.Plan;
-import com.github.Luiztins1.model.entity.Student;
 import com.github.Luiztins1.repository.PlanRepository;
 import com.github.Luiztins1.validator.PlanValidator;
-import com.github.Luiztins1.validator.StudentValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +18,6 @@ public class PlanService {
 
     private final PlanRepository planRepository;
     private final PlanValidator planValidator;
-    private final StudentValidator studentValidator;
 
     @Transactional
     public Plan registerPlan(PlanDTO planDTO){
