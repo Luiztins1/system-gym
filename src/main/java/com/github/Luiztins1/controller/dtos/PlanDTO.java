@@ -10,12 +10,10 @@ import java.util.UUID;
 public record PlanDTO(
         UUID id,
 
-        @NotNull(message = "Preencha o campo corretamente.")
         BigDecimal value,
 
         @NotNull(message = "Preencha o campo corretamente.")
         TypePlan typePlan,
-
-        @NotNull(message = "Preencha o campo corretamente.")
+        
         List<UUID> studentId) {
 }
