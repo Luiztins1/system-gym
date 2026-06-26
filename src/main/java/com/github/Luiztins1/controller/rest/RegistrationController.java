@@ -22,6 +22,7 @@ public class RegistrationController {
 
     private final RegistrationService registrationService;
 
+    @Deprecated
     @PostMapping
     public ResponseEntity<RegistrationDTO> registerRegistration(@RequestBody RegistrationDTO registrationDTO){
         Registration registration = registrationService.registerRegistration(registrationDTO);
@@ -49,6 +50,7 @@ public class RegistrationController {
         return ResponseEntity.ok(registrationList);
     }
 
+    @Deprecated
     @PutMapping("/{id}")
     public ResponseEntity<RegistrationDTO> updateRegistration(@PathVariable UUID id, @RequestBody RegistrationDTO registrationDTO){
         Optional<Registration> registrationOptional = registrationService.updateRegistration(registrationDTO);

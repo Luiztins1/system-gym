@@ -1,8 +1,10 @@
 package com.github.Luiztins1.model.entity;
 
+import com.github.Luiztins1.model.enums.TypeModality;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,11 +15,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Student {
+public class Student implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id")
     private UUID id;
 
     @Column(name = "name", nullable = false)
@@ -26,11 +28,18 @@ public class Student {
     @Column(name = "cpf", nullable = false)
     private String cpf;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "plan_id", referencedColumnName = "id", nullable = false)
-    private Plan plan_id;
+    @Column(name = "address", nullable = false)
+    private String address;
+
+    @Column(name = "typeModality", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TypeModality typeModality;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "registration_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "student", referencedColumnName = "id")
+    private Plan plan_id;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "registration_id", referencedColumnName = "id")
     private Registration registration_id;
 }

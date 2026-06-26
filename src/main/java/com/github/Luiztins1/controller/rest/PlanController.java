@@ -22,7 +22,7 @@ public class PlanController {
     private final PlanService planService;
 
     @PostMapping
-    public ResponseEntity<PlanDTO> registerPlan(PlanDTO planDTO){
+    public ResponseEntity<PlanDTO> registerPlan(@RequestBody PlanDTO planDTO){
         Plan plan = planService.registerPlan(planDTO);
 
         URI location = ServletUriComponentsBuilder
@@ -50,7 +50,7 @@ public class PlanController {
 
     @PutMapping("/{id}")
     public ResponseEntity<PlanDTO> updatePlan(@PathVariable UUID id, @RequestBody PlanDTO planDTO ){
-        Optional<Plan> planOptional = planService.updatePlan(planDTO);
+        Optional<Plan> planOptional = planService.updatePlan(id, planDTO);
 
         if(planOptional.isPresent()){
             return ResponseEntity.ok().build();

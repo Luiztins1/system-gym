@@ -2,6 +2,7 @@ package com.github.Luiztins1.service;
 
 import com.github.Luiztins1.controller.dtos.PlanDTO;
 import com.github.Luiztins1.model.entity.Plan;
+import com.github.Luiztins1.model.mapper.PlanMapper;
 import com.github.Luiztins1.repository.PlanRepository;
 import com.github.Luiztins1.validator.PlanValidator;
 import jakarta.transaction.Transactional;
@@ -21,12 +22,7 @@ public class PlanService {
 
     @Transactional
     public Plan registerPlan(PlanDTO planDTO){
-        Plan plan = new Plan(
-                null,
-                planDTO.value(),
-                planDTO.typePlan(),
-                null
-        );
+        Plan plan = PlanMapper.toEntity(planDTO);
 
         planValidator.validateDuplicatePlan(plan);
         return planRepository.save(plan);
@@ -37,11 +33,11 @@ public class PlanService {
     }
 
     @Transactional
-    public Optional<Plan> updatePlan(PlanDTO planDTO){
-        Plan plan = planValidator.validateSource(planDTO.id());
+    public Optional<Plan> updatePlan(UUID id, PlanDTO planDTO){
+        Plan plan = planValidator.validateSource(id);
 
-        plan.setValue(planDTO.value());
         plan.setTypePlan(planDTO.typePlan());
+        if(plan.getTypePlan() != null) plan.setValue(plan.getTypePlan().getValue());
 
         return Optional.of(planRepository.save(plan));
     }

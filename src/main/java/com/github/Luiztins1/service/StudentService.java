@@ -1,11 +1,9 @@
 package com.github.Luiztins1.service;
 
-import com.github.Luiztins1.controller.dtos.PlanDTO;
-import com.github.Luiztins1.controller.dtos.RegistrationDTO;
 import com.github.Luiztins1.controller.dtos.StudentDTO;
 import com.github.Luiztins1.model.entity.Plan;
-import com.github.Luiztins1.model.entity.Registration;
 import com.github.Luiztins1.model.entity.Student;
+import com.github.Luiztins1.model.mapper.StudentMapper;
 import com.github.Luiztins1.repository.StudentRepository;
 import com.github.Luiztins1.validator.PlanValidator;
 import com.github.Luiztins1.validator.RegistrationValidator;
@@ -28,16 +26,12 @@ public class StudentService {
 
     @Transactional
     public Student registerStudent(StudentDTO studentDTO){
-        Plan plan = planValidator.validateSource(studentDTO.planId());
-        Registration registration = registrationValidator.validateSource(studentDTO.registrationId());
+        Student student = StudentMapper.toEntity(studentDTO);
 
-        Student student = new Student(
-                null,
-                studentDTO.name(),
-                studentDTO.cpf(),
-                plan,
-                registration
-        );
+        if(studentDTO.planId() != null){
+            Plan plan = planValidator.validateSource(studentDTO.planId());
+            student.setPlan_id(plan);
+        }
 
         studentValidator.validateStudentDuplicate(student);
         return studentRepository.save(student);
@@ -48,17 +42,22 @@ public class StudentService {
     }
 
     @Transactional
-    public Optional<Student> updateStudent(StudentDTO studentDTO){
+    public Optional<Student> updateStudent(UUID id,StudentDTO studentDTO){
+        return studentRepository.findById(id)
+                .map(student -> {
+                    student.setAddress(studentDTO.address());
+                    student.setTypeModality(studentDTO.typeModality());
 
-        Student student = studentRepository.existsByNameOrCpf(studentDTO.name(), studentDTO.cpf());
+                    if(studentDTO.planId() != null){
+                        Plan newPlan = planValidator.validateSource(studentDTO.planId());
+                        student.setPlan_id(newPlan);
+                    }
 
-        Plan plan = planValidator.validateSource(studentDTO.planId());
-        Registration registration = registrationValidator.validateSource(studentDTO.registrationId());
-
-        student.setPlan_id(plan);
-        student.setRegistration_id(registration);
-
-        return Optional.of(studentRepository.save(student));
+                    if(student.getRegistration_id() != null){
+                       student.getRegistration_id().setModality(studentDTO.typeModality());
+                    }
+                    return studentRepository.save(student);
+                });
     }
 
     @Transactional

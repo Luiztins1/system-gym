@@ -50,7 +50,7 @@ public class StudentController {
 
     @PutMapping("/{id}")
     public ResponseEntity<StudentDTO> updateStudent(@PathVariable UUID id, @RequestBody StudentDTO studentDTO){
-        Optional<Student> studentOptional = studentService.updateStudent(studentDTO);
+        Optional<Student> studentOptional = studentService.updateStudent(id, studentDTO);
 
         if(studentOptional.isPresent()){
             return ResponseEntity.ok().build();

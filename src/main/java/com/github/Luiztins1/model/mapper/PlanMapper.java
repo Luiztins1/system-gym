@@ -9,18 +9,26 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-@Component
+import java.util.List;
+import java.util.UUID;
+
 @NoArgsConstructor
 public class PlanMapper {
 
     public static PlanDTO toDto(Plan plan){
         if(plan == null) return null;
 
+        List<UUID> studentList = plan.getStudentList() != null
+                ? plan.getStudentList()
+                .stream()
+                .map(Student::getId)
+                .toList() : null;
+
         return new PlanDTO(
                 plan.getId(),
                 plan.getValue(),
                 plan.getTypePlan(),
-                plan.getStudent_id().getId() != null ? plan.getStudent_id().getId() : null
+                studentList
         );
     }
 
@@ -30,9 +38,9 @@ public class PlanMapper {
         Plan plan = new Plan();
 
         plan.setId(planDTO.id());
-        plan.setValue(planDTO.value());
+        plan.setValue(planDTO.typePlan().getValue());
         plan.setTypePlan(planDTO.typePlan());
-        plan.setStudent_id(null);
+        plan.setStudentList(null);
 
         return plan;
     }

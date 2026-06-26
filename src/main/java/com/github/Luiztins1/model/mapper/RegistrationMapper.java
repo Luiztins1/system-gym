@@ -3,9 +3,13 @@ package com.github.Luiztins1.model.mapper;
 import com.github.Luiztins1.controller.dtos.RegistrationDTO;
 import com.github.Luiztins1.model.entity.Registration;
 import com.github.Luiztins1.model.entity.Student;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-@Component
+import java.util.List;
+import java.util.UUID;
+
+@NoArgsConstructor
 public class RegistrationMapper {
 
     public static RegistrationDTO toDto(Registration registration){
@@ -14,7 +18,7 @@ public class RegistrationMapper {
         return new RegistrationDTO(
                 registration.getId(),
                 registration.getModality(),
-                registration.getStudent_id().getId() != null ? registration.getStudent_id().getId() : null
+                registration.getStudent().getId()
         );
     }
 
@@ -22,10 +26,11 @@ public class RegistrationMapper {
         if(registrationDTO == null) return null;
 
         Registration registration = new Registration();
+        Student student = registration.getStudent();
 
         registration.setId(registrationDTO.id());
         registration.setModality(registrationDTO.modality());
-        registration.setStudent_id(null);
+        registration.setStudent(student);
 
         return registration;
     }

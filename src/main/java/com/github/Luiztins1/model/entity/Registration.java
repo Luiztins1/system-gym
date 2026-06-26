@@ -4,6 +4,9 @@ import com.github.Luiztins1.model.enums.TypeModality;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,16 +17,20 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Registration {
+public class Registration implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id")
     private UUID id;
 
     @Column(name = "modality", nullable = false)
+    @Enumerated(EnumType.STRING)
     private TypeModality modality;
 
-    @OneToMany(mappedBy = "registration_id")
-    private Student student_id;
+    @Column(name = "registration_date", nullable = false)
+    private Instant registration_date;
+
+    @OneToOne(mappedBy = "registration_id")
+    private Student student;
 }

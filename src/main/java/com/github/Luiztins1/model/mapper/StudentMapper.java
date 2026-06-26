@@ -1,21 +1,28 @@
 package com.github.Luiztins1.model.mapper;
 
 import com.github.Luiztins1.controller.dtos.StudentDTO;
+import com.github.Luiztins1.model.entity.Registration;
 import com.github.Luiztins1.model.entity.Student;
-import org.springframework.stereotype.Component;
+import lombok.NoArgsConstructor;
 
-@Component
+import java.time.Instant;
+import java.util.UUID;
+
+@NoArgsConstructor
 public class StudentMapper {
 
     public static StudentDTO toDto(Student student){
         if(student == null) return null;
 
+        UUID plan = (student.getPlan_id() != null) ? student.getPlan_id().getId() : null;
+
         return new StudentDTO(
                 student.getId(),
                 student.getName(),
                 student.getCpf(),
-                student.getPlan_id().getId() != null ? student.getPlan_id().getId() : null,
-                student.getRegistration_id().getId() != null ? student.getRegistration_id().getId(): null
+                student.getAddress(),
+                student.getTypeModality(),
+                plan
         );
     }
 
@@ -23,12 +30,19 @@ public class StudentMapper {
         if(studentDTO == null) return null;
 
         Student student = new Student();
+        Registration registration = new Registration();
 
         student.setId(studentDTO.id());
+        student.setName(studentDTO.name());
         student.setCpf(studentDTO.cpf());
+        student.setAddress(studentDTO.address());
+        student.setTypeModality(studentDTO.typeModality());
         student.setPlan_id(null);
-        student.setRegistration_id(null);
 
+        registration.setModality(studentDTO.typeModality());
+        registration.setRegistration_date(Instant.now());
+
+        student.setRegistration_id(registration);
         return student;
     }
 
