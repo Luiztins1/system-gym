@@ -4,6 +4,7 @@ import com.github.Luiztins1.controller.dtos.StudentDTO;
 import com.github.Luiztins1.model.entity.Student;
 import com.github.Luiztins1.model.mapper.StudentMapper;
 import com.github.Luiztins1.service.StudentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class StudentController {
     private final StudentService studentService;
 
     @PostMapping
-    public ResponseEntity<StudentDTO> registerStudent(@RequestBody StudentDTO studentDTO){
+    public ResponseEntity<StudentDTO> registerStudent(@RequestBody @Valid StudentDTO studentDTO){
         Student student = studentService.registerStudent(studentDTO);
 
         URI location = ServletUriComponentsBuilder
@@ -49,7 +50,7 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<StudentDTO> updateStudent(@PathVariable UUID id, @RequestBody StudentDTO studentDTO){
+    public ResponseEntity<StudentDTO> updateStudent(@PathVariable UUID id, @RequestBody @Valid StudentDTO studentDTO){
         Optional<Student> studentOptional = studentService.updateStudent(id, studentDTO);
 
         if(studentOptional.isPresent()){

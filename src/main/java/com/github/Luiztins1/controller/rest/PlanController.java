@@ -4,6 +4,7 @@ import com.github.Luiztins1.controller.dtos.PlanDTO;
 import com.github.Luiztins1.model.entity.Plan;
 import com.github.Luiztins1.model.mapper.PlanMapper;
 import com.github.Luiztins1.service.PlanService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class PlanController {
     private final PlanService planService;
 
     @PostMapping
-    public ResponseEntity<PlanDTO> registerPlan(@RequestBody PlanDTO planDTO){
+    public ResponseEntity<PlanDTO> registerPlan(@RequestBody @Valid PlanDTO planDTO){
         Plan plan = planService.registerPlan(planDTO);
 
         URI location = ServletUriComponentsBuilder
@@ -49,7 +50,7 @@ public class PlanController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PlanDTO> updatePlan(@PathVariable UUID id, @RequestBody PlanDTO planDTO ){
+    public ResponseEntity<PlanDTO> updatePlan(@PathVariable UUID id, @RequestBody @Valid PlanDTO planDTO ){
         Optional<Plan> planOptional = planService.updatePlan(id, planDTO);
 
         if(planOptional.isPresent()){
