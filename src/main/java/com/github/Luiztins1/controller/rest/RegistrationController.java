@@ -22,19 +22,6 @@ public class RegistrationController {
 
     private final RegistrationService registrationService;
 
-    @Deprecated
-    @PostMapping
-    public ResponseEntity<RegistrationDTO> registerRegistration(@RequestBody RegistrationDTO registrationDTO){
-        Registration registration = registrationService.registerRegistration(registrationDTO);
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(registration.getId())
-                .toUri();
-
-        return ResponseEntity.created(location).body(RegistrationMapper.toDto(registration));
-    }
 
     @GetMapping
     public ResponseEntity<List<RegistrationDTO>> findAll(){

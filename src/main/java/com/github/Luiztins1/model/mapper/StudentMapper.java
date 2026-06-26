@@ -6,6 +6,7 @@ import com.github.Luiztins1.model.entity.Student;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -14,7 +15,7 @@ public class StudentMapper {
     public static StudentDTO toDto(Student student){
         if(student == null) return null;
 
-        UUID plan = (student.getPlan_id() != null) ? student.getPlan_id().getId() : null;
+        UUID plan = (student.getPlanId() != null) ? student.getPlanId().getId() : null;
 
         return new StudentDTO(
                 student.getId(),
@@ -22,6 +23,7 @@ public class StudentMapper {
                 student.getCpf(),
                 student.getAddress(),
                 student.getTypeModality(),
+                student.getRegistrationDate(),
                 plan
         );
     }
@@ -37,12 +39,17 @@ public class StudentMapper {
         student.setCpf(studentDTO.cpf());
         student.setAddress(studentDTO.address());
         student.setTypeModality(studentDTO.typeModality());
-        student.setPlan_id(null);
+        student.setRegistrationDate(studentDTO.registrationDate());
+        student.setPlanId(null);
 
-        registration.setModality(studentDTO.typeModality());
-        registration.setRegistration_date(Instant.now());
+        LocalDate plusDate = student.getRegistrationDate();
 
-        student.setRegistration_id(registration);
+        registration.setModality(student.getTypeModality());
+        registration.setRegistrationDate(student.getRegistrationDate());
+        registration.setRegistrationValidity(plusDate.plusMonths(1));
+
+        registration.setStudent(student);
+        student.setRegistrationId(registration);
         return student;
     }
 

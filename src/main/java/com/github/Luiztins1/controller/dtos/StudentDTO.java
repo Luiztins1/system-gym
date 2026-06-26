@@ -1,10 +1,9 @@
 package com.github.Luiztins1.controller.dtos;
 
 import com.github.Luiztins1.model.enums.TypeModality;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 public record StudentDTO(
@@ -24,6 +23,8 @@ public record StudentDTO(
 
         @NotNull(message = "Preencha o campo corretamente.")
         TypeModality typeModality,
+
+        LocalDate registrationDate,
 
         @NotNull(message = "Preencha o campo corretamente.")
         UUID planId) {

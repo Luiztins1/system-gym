@@ -14,6 +14,6 @@ public record PlanDTO(
 
         @NotNull(message = "Preencha o campo corretamente.")
         TypePlan typePlan,
-        
+
         List<UUID> studentId) {
 }

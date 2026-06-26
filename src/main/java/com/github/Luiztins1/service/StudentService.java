@@ -30,7 +30,7 @@ public class StudentService {
 
         if(studentDTO.planId() != null){
             Plan plan = planValidator.validateSource(studentDTO.planId());
-            student.setPlan_id(plan);
+            student.setPlanId(plan);
         }
 
         studentValidator.validateStudentDuplicate(student);
@@ -50,11 +50,11 @@ public class StudentService {
 
                     if(studentDTO.planId() != null){
                         Plan newPlan = planValidator.validateSource(studentDTO.planId());
-                        student.setPlan_id(newPlan);
+                        student.setPlanId(newPlan);
                     }
 
-                    if(student.getRegistration_id() != null){
-                       student.getRegistration_id().setModality(studentDTO.typeModality());
+                    if(student.getRegistrationId() != null){
+                       student.getRegistrationId().setModality(studentDTO.typeModality());
                     }
                     return studentRepository.save(student);
                 });

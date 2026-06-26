@@ -19,19 +19,6 @@ public class RegistrationService {
     private final RegistrationValidator registrationValidator;
     private final RegistrationRepository registrationRepository;
 
-    @Deprecated
-    @Transactional
-    public Registration registerRegistration(RegistrationDTO registrationDTO){
-        Registration registration = new Registration(
-                null,
-                registrationDTO.modality(),
-                null,
-                null
-        );
-        registrationValidator.validateDuplicationRegistration(registration);
-        return registrationRepository.save(registration);
-    }
-
     public List<Registration> findAll(){
         return registrationRepository.findAll();
     }

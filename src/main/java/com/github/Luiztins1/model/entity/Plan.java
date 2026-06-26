@@ -30,7 +30,7 @@ public class Plan implements Serializable {
     @Enumerated(EnumType.STRING)
     private TypePlan typePlan;
 
-    @OneToMany(mappedBy = "plan_id")
+    @OneToMany(mappedBy = "planId")
     private List<Student> studentList;
 
 }

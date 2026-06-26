@@ -29,8 +29,11 @@ public class Registration implements Serializable {
     private TypeModality modality;
 
     @Column(name = "registration_date", nullable = false)
-    private Instant registration_date;
+    private LocalDate registrationDate;
 
-    @OneToOne(mappedBy = "registration_id")
+    @Column(name = "registration_validity")
+    private LocalDate registrationValidity;
+
+    @OneToOne(mappedBy = "registrationId")
     private Student student;
 }

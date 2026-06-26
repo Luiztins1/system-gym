@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,11 +36,14 @@ public class Student implements Serializable {
     @Enumerated(EnumType.STRING)
     private TypeModality typeModality;
 
+    @Column(name = "registration_date", nullable = false)
+    private LocalDate registrationDate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student", referencedColumnName = "id")
-    private Plan plan_id;
+    private Plan planId;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "registration_id", referencedColumnName = "id")
-    private Registration registration_id;
+    private Registration registrationId;
 }
