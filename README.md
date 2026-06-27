@@ -31,7 +31,7 @@ Por motivos de segurança, as credenciais reais do banco de dados e chaves do si
 O repositório disponibiliza um arquivo modelo chamado `application.example.yaml` e um `docker-compose.example.yaml` contendo a estrutura necessária. Para rodar o projeto localmente na sua IDE, siga os passos abaixo:
 
 ### 💾 Application
-1. Na raiz do pacote de configurações (`src/main/resources`), **duplique** o arquivo `application.example.yml`.
+1. Na raiz do pacote de configurações (`src/main/resources`), **duplique** o arquivo `application.example.yaml`.
 2. Renomeie a cópia para **`application.yml`** (este nome é ignorado pelo Git e lido pelo Spring).
 3. Abra o novo `application.yml` e preencha as variáveis com as suas credenciais locais:
 
@@ -44,7 +44,7 @@ spring:
  ```
 
 ### 🐋 Docker-Compose
-1. Na raiz do pacote de configurações, **duplique** o arquivo `docker-compose.example.yml`.
+1. Na raiz do pacote de configurações, **duplique** o arquivo `docker-compose.example.yaml`.
 2. Renomeie a cópia para **`docker-compose.yml`** (este nome é ignorado pelo Git e lido pelo Spring).
 
 * **Observação:** Abra o `docker-compose.yml` e substituia a porta para `5432:5432`, caso não tenha o PostgreSQL instalado localmente, caso contrário, permaneça o arquivo como está:
