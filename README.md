@@ -28,7 +28,7 @@ A API utiliza variáveis de ambiente para proteger dados sensíveis (como creden
 
 Por motivos de segurança, as credenciais reais do banco de dados e chaves do sistema estão configuradas em arquivos locais protegidos pelo `.gitignore`. 
 
-O repositório disponibiliza um arquivo modelo chamado `application.example.yml` e um `docker-compose.example.yaml` contendo a estrutura necessária. Para rodar o projeto localmente na sua IDE, siga os passos abaixo:
+O repositório disponibiliza um arquivo modelo chamado `application.example.yaml` e um `docker-compose.example.yaml` contendo a estrutura necessária. Para rodar o projeto localmente na sua IDE, siga os passos abaixo:
 
 ### 💾 Application
 1. Na raiz do pacote de configurações (`src/main/resources`), **duplique** o arquivo `application.example.yml`.
@@ -67,7 +67,7 @@ spring:
       retries: 5
 ```
 
-## 🚀 Como Executar
+# 🚀 Como Executar
 
 ## 🐋 Docker Compose
 1. Certifique-se de que o seu arquivo `cred.env` (ou `.env`) está na raiz do projeto com as variáveis preenchidas.
