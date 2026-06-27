@@ -74,3 +74,7 @@ spring:
 2. Suba os containers com o comando:
    ```bash
    docker compose up --build
+
+3. Para interromper a execução, no terminal do projeto, use o comando:
+   ```bash
+   docker compose down
