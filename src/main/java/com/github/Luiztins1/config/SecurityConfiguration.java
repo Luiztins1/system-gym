@@ -1,7 +1,10 @@
 package com.github.Luiztins1.config;
 
+import com.github.Luiztins1.security.CustomUserDetailsService;
+import com.github.Luiztins1.service.UserAuthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.CachingUserDetailsService;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -30,7 +33,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(){
-        return null;
+    public UserDetailsService userDetailsService(UserAuthService userAuthService){
+        return new CustomUserDetailsService(userAuthService);
     }
 }
