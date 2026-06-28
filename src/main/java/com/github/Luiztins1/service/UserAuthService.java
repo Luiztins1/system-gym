@@ -57,4 +57,8 @@ public class UserAuthService {
     public Optional<UserAuth> findByid(UUID id){
         return Optional.of(authValidator.validateSource(id));
     }
+
+    public Optional<UserAuth> findByLogin(String login){
+        return Optional.of(authValidator.validateFindByLogin(login));
+    }
 }

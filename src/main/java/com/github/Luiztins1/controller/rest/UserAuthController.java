@@ -68,4 +68,13 @@ public class UserAuthController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @GetMapping("/{login}")
+    public ResponseEntity<UserAuthDTO> findByLogin(@PathVariable String login){
+        Optional<UserAuth> user = userAuthService.findByLogin(login);
+
+        if(user.isPresent()) return ResponseEntity.ok().build();
+        
+        return ResponseEntity.noContent().build();
+    }
 }

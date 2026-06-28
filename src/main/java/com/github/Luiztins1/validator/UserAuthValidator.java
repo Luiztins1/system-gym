@@ -24,6 +24,12 @@ public class UserAuthValidator {
         if(duplicateStudent(userAuth)) throw new DuplicateException("Usuário já cadastrado no sistema.");
     }
 
+    public UserAuth validateFindByLogin(String login){
+        var user = userAuthRepository.findByLogin(login);
+        validateSource(user.getId());
+        return user;
+    }
+
     private boolean duplicateStudent(UserAuth userAuth){
         return userAuthRepository.existsByLogin(userAuth.getLogin());
     }
