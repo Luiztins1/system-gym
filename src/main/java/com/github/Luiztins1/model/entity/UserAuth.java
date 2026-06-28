@@ -1,10 +1,7 @@
 package com.github.Luiztins1.model.entity;
 
 import io.hypersistence.utils.hibernate.type.array.ListArrayType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Type;
 
@@ -21,6 +18,7 @@ import java.util.UUID;
 public class UserAuth {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private UUID id;
 
