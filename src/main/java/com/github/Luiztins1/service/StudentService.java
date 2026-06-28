@@ -42,7 +42,7 @@ public class StudentService {
     }
 
     @Transactional
-    public Optional<Student> updateStudent(UUID id,StudentDTO studentDTO){
+    public Optional<Student> updateStudent(UUID id, StudentDTO studentDTO){
         return studentRepository.findById(id)
                 .map(student -> {
                     student.setAddress(studentDTO.address());
