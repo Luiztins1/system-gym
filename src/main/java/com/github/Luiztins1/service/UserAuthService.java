@@ -4,6 +4,7 @@ import com.github.Luiztins1.controller.dtos.UserAuthDTO;
 import com.github.Luiztins1.model.entity.UserAuth;
 import com.github.Luiztins1.model.mapper.UserAuthMapper;
 import com.github.Luiztins1.repository.UserAuthRepository;
+import com.github.Luiztins1.validator.UserAuthValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +20,7 @@ import java.util.UUID;
 public class UserAuthService {
 
     private final UserAuthRepository userAuthRepository;
+    private final UserAuthValidator authValidator;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
@@ -27,6 +29,7 @@ public class UserAuthService {
         var password = user.getPassword();
         user.setPassword(passwordEncoder.encode(password));
 
+        authValidator.validateSource(user.getId());
         return userAuthRepository.save(user);
     }
 
@@ -47,10 +50,11 @@ public class UserAuthService {
     }
 
     public void cancelUserAuth(UUID id){
+        authValidator.validateSource(id);
         userAuthRepository.deleteById(id);
     }
 
-    public void findByid(UUID id){
-        userAuthRepository.findById(id);
+    public Optional<UserAuth> findByid(UUID id){
+        return Optional.of(authValidator.validateSource(id));
     }
 }
