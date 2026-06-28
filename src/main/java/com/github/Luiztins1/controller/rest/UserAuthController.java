@@ -74,7 +74,7 @@ public class UserAuthController {
         Optional<UserAuth> user = userAuthService.findByLogin(login);
 
         if(user.isPresent()) return ResponseEntity.ok().build();
-        
+
         return ResponseEntity.noContent().build();
     }
 }
