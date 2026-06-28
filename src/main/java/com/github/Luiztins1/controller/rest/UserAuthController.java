@@ -1,0 +1,71 @@
+package com.github.Luiztins1.controller.rest;
+
+import com.github.Luiztins1.controller.dtos.UserAuthDTO;
+import com.github.Luiztins1.model.entity.UserAuth;
+import com.github.Luiztins1.model.mapper.UserAuthMapper;
+import com.github.Luiztins1.service.UserAuthService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/api/v1/users")
+@RequiredArgsConstructor
+public class UserAuthController {
+
+    private final UserAuthService userAuthService;
+
+    @PostMapping
+    public ResponseEntity<UserAuthDTO> registerUserAuth(@RequestBody  UserAuthDTO userAuthDTO){
+        var user = UserAuthMapper.toEntity(userAuthDTO);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(user.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).body(UserAuthMapper.toDto(user));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserAuthDTO>> findAll(){
+        List<UserAuthDTO> userAuthDTOList = userAuthService.findAll()
+                .stream()
+                .map(UserAuthMapper::toDto)
+                .toList();
+
+        if(userAuthDTOList.isEmpty()) return ResponseEntity.noContent().build();
+
+        return ResponseEntity.ok(userAuthDTOList);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserAuthDTO> updateUserAuth(@PathVariable UUID id, @RequestBody UserAuthDTO userAuthDTO){
+        Optional<UserAuth> userAuthOptional = userAuthService.updateUserAuth(id, userAuthDTO);
+
+        if(userAuthOptional.isPresent()) return ResponseEntity.ok().build();
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> cancelUserAuth(@PathVariable UUID id){
+        userAuthService.cancelUserAuth(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserAuthDTO> findById(@PathVariable UUID id){
+        return userAuthService.findByid(id)
+                .map(UserAuthMapper::toDto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+}
