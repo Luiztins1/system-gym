@@ -29,7 +29,6 @@ public class UserAuthService {
         var password = user.getPassword();
         user.setPassword(passwordEncoder.encode(password));
 
-        authValidator.validateSource(user.getId());
         return userAuthRepository.save(user);
     }
 
@@ -42,7 +41,7 @@ public class UserAuthService {
                 .map(userAuth -> {
                     userAuth.setPassword(userAuthDTO.password());
 
-                    if(userAuth.getId() != null) throw new UsernameNotFoundException("Usuário não encontado.");
+                    if(userAuth.getId() == null) throw new UsernameNotFoundException("Usuário não encontado.");
 
                     return userAuthRepository.save(userAuth);
                 });

@@ -11,6 +11,7 @@ public class UserAuthMapper {
         if(userAuth == null ) return null;
 
         return new UserAuthDTO(
+                userAuth.getId(),
                 userAuth.getLogin(),
                 userAuth.getPassword(),
                 userAuth.getRoles()
@@ -22,6 +23,7 @@ public class UserAuthMapper {
 
         UserAuth userAuth = new UserAuth();
 
+        userAuth.setId(userAuthDTO.id());
         userAuth.setLogin(userAuthDTO.login());
         userAuth.setPassword(userAuthDTO.password());
         userAuth.setRoles(userAuthDTO.roles());

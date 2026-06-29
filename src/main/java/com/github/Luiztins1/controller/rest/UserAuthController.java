@@ -4,6 +4,7 @@ import com.github.Luiztins1.controller.dtos.UserAuthDTO;
 import com.github.Luiztins1.model.entity.UserAuth;
 import com.github.Luiztins1.model.mapper.UserAuthMapper;
 import com.github.Luiztins1.service.UserAuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,9 +24,9 @@ public class UserAuthController {
     private final UserAuthService userAuthService;
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    public ResponseEntity<UserAuthDTO> registerUserAuth(@RequestBody  UserAuthDTO userAuthDTO){
-        var user = UserAuthMapper.toEntity(userAuthDTO);
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<UserAuthDTO> registerUserAuth(@RequestBody @Valid UserAuthDTO userAuthDTO){
+        var user =  userAuthService.registerUserAuth(userAuthDTO);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -51,7 +52,7 @@ public class UserAuthController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    public ResponseEntity<UserAuthDTO> updateUserAuth(@PathVariable UUID id, @RequestBody UserAuthDTO userAuthDTO){
+    public ResponseEntity<UserAuthDTO> updateUserAuth(@PathVariable UUID id, @RequestBody @Valid UserAuthDTO userAuthDTO){
         Optional<UserAuth> userAuthOptional = userAuthService.updateUserAuth(id, userAuthDTO);
 
         if(userAuthOptional.isPresent()) return ResponseEntity.ok().build();

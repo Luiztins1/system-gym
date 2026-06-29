@@ -14,7 +14,7 @@ import java.util.UUID;
 @Table(name = "registrations")
 @Getter
 @Setter
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Registration extends Auditable implements Serializable {
@@ -36,4 +36,12 @@ public class Registration extends Auditable implements Serializable {
 
     @OneToOne(mappedBy = "registrationId")
     private Student student;
+
+    public Registration(UUID id, TypeModality modality, LocalDate registrationDate, LocalDate registrationValidity, Student student){
+        this.id = id;
+        this.modality = modality;
+        this.registrationDate = registrationDate;
+        this.registrationValidity = registrationDate.plusMonths(1);
+        this.student = student;
+    }
 }

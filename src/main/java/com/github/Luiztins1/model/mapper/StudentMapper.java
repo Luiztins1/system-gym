@@ -42,11 +42,8 @@ public class StudentMapper {
         student.setRegistrationDate(studentDTO.registrationDate());
         student.setPlanId(null);
 
-        LocalDate plusDate = student.getRegistrationDate();
-
         registration.setModality(student.getTypeModality());
         registration.setRegistrationDate(student.getRegistrationDate());
-        registration.setRegistrationValidity(plusDate.plusMonths(1));
 
         registration.setStudent(student);
         student.setRegistrationId(registration);
