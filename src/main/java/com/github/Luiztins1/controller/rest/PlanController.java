@@ -7,6 +7,7 @@ import com.github.Luiztins1.service.PlanService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -23,6 +24,7 @@ public class PlanController {
     private final PlanService planService;
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PlanDTO> registerPlan(@RequestBody @Valid PlanDTO planDTO){
         Plan plan = planService.registerPlan(planDTO);
 
@@ -36,6 +38,7 @@ public class PlanController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<List<PlanDTO>> findAll(){
         List<PlanDTO> planList = planService.findAll()
                 .stream()
@@ -50,6 +53,7 @@ public class PlanController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PlanDTO> updatePlan(@PathVariable UUID id, @RequestBody @Valid PlanDTO planDTO ){
         Optional<Plan> planOptional = planService.updatePlan(id, planDTO);
 
@@ -61,12 +65,14 @@ public class PlanController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> cancelRegisterPlan(@PathVariable UUID id){
         planService.cancelRegisterPlan(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<PlanDTO> findById(@PathVariable UUID id){
         return planService.findById(id)
                 .map(PlanMapper::toDto)

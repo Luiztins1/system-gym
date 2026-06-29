@@ -7,6 +7,7 @@ import com.github.Luiztins1.service.RegistrationService;
 import jakarta.servlet.Servlet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -24,6 +25,7 @@ public class RegistrationController {
 
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<List<RegistrationDTO>> findAll(){
         List<RegistrationDTO> registrationList = registrationService.findAll()
                 .stream()
@@ -50,6 +52,7 @@ public class RegistrationController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<RegistrationDTO> findById(@PathVariable UUID id){
         return registrationService.findById(id)
                 .map(RegistrationMapper::toDto)

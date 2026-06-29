@@ -7,6 +7,7 @@ import com.github.Luiztins1.service.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -23,6 +24,7 @@ public class StudentController {
     private final StudentService studentService;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<StudentDTO> registerStudent(@RequestBody @Valid StudentDTO studentDTO){
         Student student = studentService.registerStudent(studentDTO);
 
@@ -36,6 +38,7 @@ public class StudentController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<List<StudentDTO>> findAll(){
         List<StudentDTO> studentList = studentService.findAll()
                 .stream()
@@ -50,6 +53,7 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<StudentDTO> updateStudent(@PathVariable UUID id, @RequestBody @Valid StudentDTO studentDTO){
         Optional<Student> studentOptional = studentService.updateStudent(id, studentDTO);
 
@@ -62,12 +66,14 @@ public class StudentController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<Void> cancelRegisterStudent(@PathVariable UUID id){
         studentService.cancelRegisterStudent(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<StudentDTO> findById(@PathVariable UUID id){
         return studentService.findById(id)
                 .map(StudentMapper::toDto)
