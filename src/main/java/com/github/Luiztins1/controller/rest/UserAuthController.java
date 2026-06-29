@@ -38,7 +38,7 @@ public class UserAuthController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<List<UserAuthDTO>> findAll(){
         List<UserAuthDTO> userAuthDTOList = userAuthService.findAll()
                 .stream()
@@ -51,7 +51,7 @@ public class UserAuthController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<UserAuthDTO> updateUserAuth(@PathVariable UUID id, @RequestBody @Valid UserAuthDTO userAuthDTO){
         Optional<UserAuth> userAuthOptional = userAuthService.updateUserAuth(id, userAuthDTO);
 
@@ -61,14 +61,14 @@ public class UserAuthController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<Void> cancelUserAuth(@PathVariable UUID id){
         userAuthService.cancelUserAuth(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<UserAuthDTO> findById(@PathVariable UUID id){
         return userAuthService.findByid(id)
                 .map(UserAuthMapper::toDto)
@@ -77,7 +77,7 @@ public class UserAuthController {
     }
 
     @GetMapping("/{login}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<UserAuthDTO> findByLogin(@PathVariable String login){
         Optional<UserAuth> user = userAuthService.findByLogin(login);
 

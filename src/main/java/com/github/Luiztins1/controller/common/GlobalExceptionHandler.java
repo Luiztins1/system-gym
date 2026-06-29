@@ -7,6 +7,7 @@ import com.github.Luiztins1.exceptions.NotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -51,5 +52,21 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseErrorDTO notFoundException (NotFoundException e){
         return new ResponseErrorDTO(HttpStatus.NOT_FOUND, e.getMessage(), List.of());
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ResponseErrorDTO acessDenied(AuthorizationDeniedException e){
+        return new ResponseErrorDTO(HttpStatus.FORBIDDEN, "Você não possui permissão para essa função.", List.of());
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseErrorDTO handleGenericException(Exception e) {
+        return new ResponseErrorDTO(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                "Ocorreu um erro interno inesperado no servidor. Por favor, tente novamente mais tarde.",
+                List.of()
+        );
     }
 }
