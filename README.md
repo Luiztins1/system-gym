@@ -5,7 +5,7 @@ Essa API foi desenvolvida como foco em atender demandas básicas de uma academia
 
 # 🛠 Tecnologias e ferramentas
 * **Linguagem:** Java 21
-* **Framework Principal:** Spring Boot 3.x (Spring Data JPA, Spring Web, Spring Validation, Spring DevTools)
+* **Framework Principal:** Spring Boot 3.3.4 (Spring Data JPA, Spring Web, Spring Validation, Spring DevTools com **Basic Auth**)
 * **Banco de dados:** PostgreSQL
 * **Ferramentas de Suporte:** Docker (para criar um imagem que possa rodar em qualquer máquina), Postman (um cliente para testar as requisições HTTP)
 
@@ -65,6 +65,19 @@ spring:
       interval: 10s
       timeout: 5s
       retries: 5
+```
+
+# 🗄️ Configuração do Banco de Dados
+No pacote raiz do projeto, possui um arquivo nomeado **`sqelcode.sql`**. Esse arquivo possue um Script SQL para criação da tabela **`user_mauths`**. Abra um cliente de banco de dados (como o **Dbeaver**), conecte usando as suas credências (username/password) e execute o Script SQL.
+
+* **Observação:** O `application.example.yaml` vem com o **JPA** configurado para **dll-auto: create-drop**. Recomenda-se executar em **update** após a criação da tabela **`user_auths`**
+```yaml
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
 ```
 
 # 🚀 Como Executar
