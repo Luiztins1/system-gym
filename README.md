@@ -79,6 +79,36 @@ No pacote raiz do projeto, possui um arquivo nomeado **`sqelcode.sql`**. Esse ar
     show-sql: true
 
 ```
+# 🔐 Acesso de Login
+O Spring Security Basic Auth está configurado por padrão com um usuário para acesso:
+
+* `Login: admin`
+* `Password: admin123`
+
+Caso tenha interesse de trocar as configurações do usuário padrão basta ir até (`src/main/config/DatabaseSeeder.java`) e mudar os seguintes campos:
+* `userAuth.setLogin("o login que deseja.)`
+*  `userAuth.setPassword("a senha que deseja.)`
+*  `userAuth.setRoles("a role que deseja.)`
+
+```java
+@Configuration
+public class DatabaseSeeder {
+
+    @Bean
+    public CommandLineRunner commandLineRunner(UserAuthRepository repository, PasswordEncoder passwordEncoder){
+        return args ->{
+            if(repository.count() == 0){
+                var userAuthAdmin = new UserAuth();
+                userAuthAdmin.setLogin("TROQUE-ME");
+                userAuthAdmin.setPassword(passwordEncoder.encode("TROQUE-ME"));
+                userAuthAdmin.setRoles(List.of("TROQUE-ME"));
+
+                repository.save(userAuthAdmin);
+            }
+        };
+    }
+}
+```
 
 # 🚀 Como Executar
 
