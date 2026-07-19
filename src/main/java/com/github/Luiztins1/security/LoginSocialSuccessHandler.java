@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.oauth2.server.servlet.OAuth2AuthorizationServerAutoConfiguration;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -24,8 +25,6 @@ public class LoginSocialSuccessHandler extends SavedRequestAwareAuthenticationSu
             HttpServletRequest request,
             HttpServletResponse response,
             Authentication authentication) throws ServletException, IOException {
-
-        OAuth2Auth
 
         super.onAuthenticationSuccess(request, response, authentication);
     }
