@@ -1,6 +1,8 @@
 package com.github.Luiztins1.config;
 
+import com.github.Luiztins1.security.LoginSocialSuccessHandler;
 import com.github.Luiztins1.service.UserAuthService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -16,7 +18,10 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
+@RequiredArgsConstructor
 public class SecurityConfiguration {
+
+    private final LoginSocialSuccessHandler loginSocialSuccessHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
@@ -27,6 +32,9 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorizer -> {
                   authorizer.requestMatchers("/login").permitAll();
                   authorizer.anyRequest().authenticated();
+                })
+                .oauth2Login(oauth2 ->{
+                    oauth2.successHandler(loginSocialSuccessHandler);
                 })
                 .build();
     }
