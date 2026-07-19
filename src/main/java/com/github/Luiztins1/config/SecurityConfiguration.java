@@ -1,6 +1,5 @@
 package com.github.Luiztins1.config;
 
-import com.github.Luiztins1.security.CustomUserDetailsService;
 import com.github.Luiztins1.service.UserAuthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

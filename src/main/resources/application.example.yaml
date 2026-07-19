@@ -11,3 +11,11 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+
+    security:
+      oauth2:
+        client:
+          registration:
+            google:
+              client_id: sua_credencial
+              client_secret: sua_credencial
