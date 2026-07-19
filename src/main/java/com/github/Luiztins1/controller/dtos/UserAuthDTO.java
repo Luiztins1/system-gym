@@ -17,6 +17,9 @@ public record UserAuthDTO(
         @NotBlank(message = "A senha é obrigatória e não pode estar em branco.")
         String password,
 
+        @NotBlank(message = "O email é obrigatória e não pode estar em branco.")
+        String email,
+
         @NotEmpty(message = "Adicione corretamente as roles.")
         List<String> roles) {
 }

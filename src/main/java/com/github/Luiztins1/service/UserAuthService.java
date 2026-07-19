@@ -1,6 +1,7 @@
 package com.github.Luiztins1.service;
 
 import com.github.Luiztins1.controller.dtos.UserAuthDTO;
+import com.github.Luiztins1.exceptions.NotFoundException;
 import com.github.Luiztins1.model.entity.UserAuth;
 import com.github.Luiztins1.model.mapper.UserAuthMapper;
 import com.github.Luiztins1.repository.UserAuthRepository;
@@ -24,12 +25,11 @@ public class UserAuthService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public UserAuth registerUserAuth(UserAuthDTO userAuthDTO){
-        var user = UserAuthMapper.toEntity(userAuthDTO);
-        var password = user.getPassword();
-        user.setPassword(passwordEncoder.encode(password));
+    public void registerUserAuth(UserAuth userAuth){
+        var password = userAuth.getPassword();
+        userAuth.setPassword(passwordEncoder.encode(password));
 
-        return userAuthRepository.save(user);
+        userAuthRepository.save(userAuth);
     }
 
     public List<UserAuth> findAll(){
@@ -59,5 +59,9 @@ public class UserAuthService {
 
     public Optional<UserAuth> findByLogin(String login){
         return Optional.of(authValidator.validateFindByLogin(login));
+    }
+
+    public UserAuth findByEmail(String email){
+        return authValidator.validateFindByEmail(email);
     }
 }
