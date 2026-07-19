@@ -25,7 +25,7 @@ public class LoginSocialSuccessHandler extends SavedRequestAwareAuthenticationSu
             HttpServletResponse response,
             Authentication authentication) throws ServletException, IOException {
 
-
+        OAuth2Auth
 
         super.onAuthenticationSuccess(request, response, authentication);
     }
