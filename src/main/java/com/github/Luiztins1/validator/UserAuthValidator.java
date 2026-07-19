@@ -30,6 +30,10 @@ public class UserAuthValidator {
         return user;
     }
 
+    public UserAuth validateFindByEmail(String email){
+        return userAuthRepository.findByEmail(email);
+    }
+
     private boolean duplicateStudent(UserAuth userAuth){
         return userAuthRepository.existsByLogin(userAuth.getLogin());
     }

@@ -1,5 +1,6 @@
 package com.github.Luiztins1.security;
 
+import com.github.Luiztins1.exceptions.NotFoundException;
 import com.github.Luiztins1.model.entity.UserAuth;
 import com.github.Luiztins1.service.UserAuthService;
 import jakarta.servlet.ServletException;
@@ -9,10 +10,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.oauth2.server.servlet.OAuth2AuthorizationServerAutoConfiguration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -26,6 +29,27 @@ public class LoginSocialSuccessHandler extends SavedRequestAwareAuthenticationSu
             HttpServletResponse response,
             Authentication authentication) throws ServletException, IOException {
 
+        OAuth2AuthenticationToken authenticationToken = (OAuth2AuthenticationToken) authentication;
+
+        OAuth2User oAuth2User = authenticationToken.getPrincipal();
+
+        String email = oAuth2User.getAttribute("email");
+
+        UserAuth userAuth = userAuthService.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Email não encontrado."));
+
+        if(userAuth == null) userAuth = registerUserAuth(email);
+
         super.onAuthenticationSuccess(request, response, authentication);
+    }
+
+    public UserAuth registerUserAuth(String email){
+        UserAuth userAuth = new UserAuth();
+        userAuth.setLogin("test");
+        userAuth.setPassword("test");
+        userAuth.setEmail(email);
+        userAuth.setRoles(List.of("USER"));
+
+        return userAuth;
     }
 }

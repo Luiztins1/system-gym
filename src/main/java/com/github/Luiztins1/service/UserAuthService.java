@@ -1,6 +1,7 @@
 package com.github.Luiztins1.service;
 
 import com.github.Luiztins1.controller.dtos.UserAuthDTO;
+import com.github.Luiztins1.exceptions.NotFoundException;
 import com.github.Luiztins1.model.entity.UserAuth;
 import com.github.Luiztins1.model.mapper.UserAuthMapper;
 import com.github.Luiztins1.repository.UserAuthRepository;
@@ -59,5 +60,9 @@ public class UserAuthService {
 
     public Optional<UserAuth> findByLogin(String login){
         return Optional.of(authValidator.validateFindByLogin(login));
+    }
+
+    public Optional<UserAuth> findByEmail(String email){
+        return Optional.of(authValidator.validateFindByEmail(email));
     }
 }
