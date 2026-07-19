@@ -20,6 +20,7 @@ public class DatabaseSeeder {
                 UserAuth defaultAdmin = new UserAuth();
                 defaultAdmin.setLogin("admin");
                 defaultAdmin.setPassword(encoder.encode("admin123"));
+                defaultAdmin.setEmail("admin@gmail.com");
                 defaultAdmin.setRoles(List.of("ADMIN"));
 
                 repository.save(defaultAdmin);

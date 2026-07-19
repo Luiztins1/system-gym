@@ -25,12 +25,11 @@ public class UserAuthService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public UserAuth registerUserAuth(UserAuthDTO userAuthDTO){
-        var user = UserAuthMapper.toEntity(userAuthDTO);
-        var password = user.getPassword();
-        user.setPassword(passwordEncoder.encode(password));
+    public void registerUserAuth(UserAuth userAuth){
+        var password = userAuth.getPassword();
+        userAuth.setPassword(passwordEncoder.encode(password));
 
-        return userAuthRepository.save(user);
+        userAuthRepository.save(userAuth);
     }
 
     public List<UserAuth> findAll(){
@@ -62,7 +61,7 @@ public class UserAuthService {
         return Optional.of(authValidator.validateFindByLogin(login));
     }
 
-    public Optional<UserAuth> findByEmail(String email){
-        return Optional.of(authValidator.validateFindByEmail(email));
+    public UserAuth findByEmail(String email){
+        return authValidator.validateFindByEmail(email);
     }
 }

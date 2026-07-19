@@ -36,8 +36,7 @@ public class LoginSocialSuccessHandler extends SavedRequestAwareAuthenticationSu
 
         String email = oAuth2User.getAttribute("email");
 
-        UserAuth userAuth = userAuthService.findByEmail(email)
-                .orElseThrow(() -> new NotFoundException("Email não encontrado."));
+        UserAuth userAuth = userAuthService.findByEmail(email);
 
         if(userAuth == null) userAuth = registerUserAuth(email);
 
@@ -51,6 +50,7 @@ public class LoginSocialSuccessHandler extends SavedRequestAwareAuthenticationSu
         userAuth.setEmail(email);
         userAuth.setRoles(List.of("USER"));
 
+        userAuthService.registerUserAuth(userAuth);
         return userAuth;
     }
 }

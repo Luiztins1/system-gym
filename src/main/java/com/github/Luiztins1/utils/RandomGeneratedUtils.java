@@ -19,7 +19,7 @@ public class RandomGeneratedUtils {
             builder.append(ALPHA_NUMERIC_STRING.charAt(index));
         }
 
-        return "User" + builder;
+        return builder.toString();
     }
 
     public static String generatePassword(int n){

@@ -26,7 +26,7 @@ public class UserAuthController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserAuthDTO> registerUserAuth(@RequestBody @Valid UserAuthDTO userAuthDTO){
-        var user =  userAuthService.registerUserAuth(userAuthDTO);
+        var user = UserAuthMapper.toEntity(userAuthDTO);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
