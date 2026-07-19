@@ -3,6 +3,7 @@ package com.github.Luiztins1.security;
 import com.github.Luiztins1.exceptions.NotFoundException;
 import com.github.Luiztins1.model.entity.UserAuth;
 import com.github.Luiztins1.service.UserAuthService;
+import com.github.Luiztins1.utils.RandomGeneratedUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -45,8 +46,8 @@ public class LoginSocialSuccessHandler extends SavedRequestAwareAuthenticationSu
 
     public UserAuth registerUserAuth(String email){
         UserAuth userAuth = new UserAuth();
-        userAuth.setLogin("test");
-        userAuth.setPassword("test");
+        userAuth.setLogin(RandomGeneratedUtils.generateLogin(8));
+        userAuth.setPassword(RandomGeneratedUtils.generatePassword(8));
         userAuth.setEmail(email);
         userAuth.setRoles(List.of("USER"));
 
